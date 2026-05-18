@@ -1,10 +1,11 @@
 import './App.css'
+import UserLocation from './components/UserLocation'
 
 function App() {
 
   return (
     <>
-      <h1>Hello World!</h1>
+      <UserLocation />
     </>
   )
 }
