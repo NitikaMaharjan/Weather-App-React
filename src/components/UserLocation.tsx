@@ -77,12 +77,18 @@ export default function UserLocation() {
     }, []);
     
     return (
-        <div>
-            <input type="text" placeholder="Enter location" value={location} onChange={handleInputChange}/>
-            <button onClick={() => fetchWeatherData(location)}>Search</button>
+        <>
+            <div className="navbar">
+                <h1>SkyView Weather</h1>
+                <div>
+                    <input type="text" placeholder="Enter location" value={location} onChange={handleInputChange}/>
+                    <button onClick={() => fetchWeatherData(location)}>Search</button>
+                </div>
+                <button>change theme (system, light, dark)</button>
+            </div>
             {
                 weatherData!==null && 
-                <>
+                <div className="weather-data">
                     <div className="current-weather">
                         <p>Timezone: {weatherData.timezone}</p>
                         <p>Icon: {weatherData.currentConditions.icon}</p>
@@ -93,7 +99,6 @@ export default function UserLocation() {
                         <p>Precipitation Probability: {weatherData.currentConditions.precipprob}%</p>
                     </div>
                     <div className="hourly-weather">
-                        <h2>Hourly Weather Data:</h2>
                         {/* Object.keys(weatherData.days[0].hours) returns hour: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23"]*/}
                         {/* now we iterate over array of strings */}
                         {
@@ -110,8 +115,8 @@ export default function UserLocation() {
                             ))
                         }
                     </div>
-                </>
+                </div>
             }
-        </div>
+        </>
     )
 }
