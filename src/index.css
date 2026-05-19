@@ -1,12 +1,45 @@
 @import "tailwindcss";
 
+:root {
+    --bg-color: #e4f1f7;
+    --card-color: #ffffff;
+    --text-color: #000000;
+    --primary-color: #5096ad;
+    --secondary-color: #cfe9f5;
+}
+
+/* light theme */
+[data-theme="light"] {
+    --bg-color: #e4f1f7;
+    --card-color: #ffffff;
+    --text-color: #000000;
+    --primary-color: #5096ad;
+    --secondary-color: #cfe9f5;
+}
+
+/* dark theme */
+[data-theme="dark"] {
+    --bg-color: #50647c;
+    --card-color: #162841;
+    --text-color: #f1f1f1;
+    --primary-color: #355472;
+    --secondary-color: #020a1f;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
 #root {
     height: 100vh;
     display: flex;
     flex-direction: column;
     gap: 20px;
     padding: 20px;
-    background-color: antiquewhite;
 }
 
 .navbar {
@@ -15,7 +48,7 @@
     justify-content: space-between;
     padding: 20px;
     border-radius: 12px;
-    background-color: wheat;
+    background-color: var(--card-color);
 }
 
 .weather-data {
@@ -25,7 +58,7 @@
     flex-direction: column;
     justify-content: space-between;
     border-radius: 12px;
-    background-color: wheat;
+    background-color: var(--card-color);
 }
 
 .hourly-weather {
@@ -35,3 +68,11 @@
     white-space: nowrap;
     scrollbar-width: none;
 } 
+
+.weekly-weather {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    white-space: nowrap;
+    scrollbar-width: none;
+}
