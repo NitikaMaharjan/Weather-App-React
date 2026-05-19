@@ -1,48 +1,51 @@
 import { useContext, useEffect, useState } from "react";
 import { ThemeContext } from "../context/theme/ThemeContext";
 import { AlertContext } from "../context/alert/AlertContext";
+import Weather from "./Weather";
+
+interface HourlyWeatherData {
+    datetime: string;
+    icon: string;
+    conditions: string;
+    temp: number;
+    windspeed: number;
+    visibility: number;
+    humidity: number;
+    precipprob: number;
+}
+
+interface DayWeatherData {
+    datetime: string;
+    icon: string;
+    conditions: string;
+    temp: number;
+    windspeed: number;
+    visibility: number;
+    humidity: number;
+    precipprob: number;
+    hours: HourlyWeatherData[];
+}
+
+interface WeatherData {
+    timezone: string;
+    currentConditions: {
+        icon: string;
+        conditions: string;
+        temp: number;
+        windspeed: number;
+        visibility: number;
+        humidity: number;
+        precipprob: number;
+    };
+    days: DayWeatherData[];
+}
 
 export default function UserLocation() {
 
-    interface HourlyWeatherData {
-        datetime: string;
-        icon: string;
-        conditions: string;
-        temp: number;
-        windspeed: number;
-        visibility: number;
-        humidity: number;
-        precipprob: number;
-    }
-
-    interface DayWeatherData {
-        datetime: string;
-        icon: string;
-        conditions: string;
-        temp: number;
-        windspeed: number;
-        visibility: number;
-        humidity: number;
-        precipprob: number;
-        hours: HourlyWeatherData[];
-    }
-
-    interface WeatherData {
-        timezone: string;
-        currentConditions: {
-            icon: string;
-            conditions: string;
-            temp: number;
-            windspeed: number;
-            visibility: number;
-            humidity: number;
-            precipprob: number;
-        };
-        days: DayWeatherData[];
-    }
-
     const [ weatherData, setWeatherData ] = useState<WeatherData | null>(null);
     const [ location, setLocation ] = useState<string>("");
+    const [ celsius, setCelsius ] = useState<number>(0);
+    const [ convertTemp, setConvertTemp ] = useState<boolean>(false);
 
     const themeContext = useContext(ThemeContext);
     if (!themeContext) {
@@ -80,6 +83,14 @@ export default function UserLocation() {
         setLocation(event.target.value);        
     }
 
+    function handleTemperateChange(x: number) {
+        if (!convertTemp){
+            const celsi = (x - 32) * 5/9;
+            setCelsius(celsi);
+        }
+        setConvertTemp(!convertTemp);
+    }  
+
     useEffect(() => {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
@@ -115,7 +126,7 @@ export default function UserLocation() {
                         <p>Timezone: {weatherData.timezone}</p>
                         <p>Icon: {weatherData.currentConditions.icon}</p>
                         <p>Conditions: {weatherData.currentConditions.conditions}</p>
-                        <p>Temperature: {weatherData.currentConditions.temp}°F</p>
+                        <p onClick={()=>handleTemperateChange(weatherData.currentConditions.temp)}>Temperature: {convertTemp?celsius+"°C":weatherData.currentConditions.temp+"°F"}</p>
                         <p>Wind Speed: {weatherData.currentConditions.windspeed} km/h</p>
                         <p>Visibility: {weatherData.currentConditions.visibility} km</p>
                         <p>Humidity: {weatherData.currentConditions.humidity}%</p>
@@ -126,16 +137,7 @@ export default function UserLocation() {
                         {/* now we iterate over array of strings */}
                         {
                             Object.values(weatherData.days[0].hours).map((hour: HourlyWeatherData) => (
-                                <div key={hour.datetime}>
-                                    <p><b>Datetime: {hour.datetime}</b></p>
-                                    <p>Icon: {hour.icon}</p>
-                                    <p>Conditions: {hour.conditions}</p>
-                                    <p>Temperature: {hour.temp}°F</p>
-                                    <p>Wind Speed: {hour.windspeed} km/h</p>
-                                    <p>Visibility: {hour.visibility} km</p>
-                                    <p>Humidity: {hour.humidity}%</p>
-                                    <p>Precipitation Probability: {hour.precipprob}%</p>
-                                </div>
+                                <Weather hour={hour}/>
                             ))
                         }
                     </div>
@@ -143,16 +145,7 @@ export default function UserLocation() {
                         {
                             Object.values(weatherData.days).map((hour: HourlyWeatherData, index: number) => (
                                 index !== 0 && (
-                                    <div key={hour.datetime}>
-                                        <p><b>Datetime: {hour.datetime}</b></p>
-                                        <p>Icon: {hour.icon}</p>
-                                        <p>Conditions: {hour.conditions}</p>
-                                        <p>Temperature: {hour.temp}°F</p>
-                                        <p>Wind Speed: {hour.windspeed} km/h</p>
-                                        <p>Visibility: {hour.visibility} km</p>
-                                        <p>Humidity: {hour.humidity}%</p>
-                                        <p>Precipitation Probability: {hour.precipprob}%</p>
-                                    </div>
+                                    <Weather hour={hour}/>
                                 )                                
                             ))
                         }
