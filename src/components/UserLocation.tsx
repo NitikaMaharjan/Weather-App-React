@@ -42,10 +42,15 @@ interface WeatherData {
 
 export default function UserLocation() {
 
+    const apiKey = import.meta.env.VITE_WEATHER_API_KEY;
+
     const [ weatherData, setWeatherData ] = useState<WeatherData | null>(null);
     const [ location, setLocation ] = useState<string>("");
     const [ celsius, setCelsius ] = useState<number>(0);
     const [ convertTemp, setConvertTemp ] = useState<boolean>(false);
+    const [ currentTime, setCurrentTime ] = useState<string>("");
+    const [ currentDay, setCurrentDay ] = useState<string>("");
+    const [ greetings, setGreetings ] = useState<string>("");
 
     const themeContext = useContext(ThemeContext);
     if (!themeContext) {
@@ -59,13 +64,13 @@ export default function UserLocation() {
     }
     const { handleShowAlert } = alertContext;
 
-    async function fetchWeatherData(location: string) {
+    async function handleFetchWeatherData(location: string) {
         if (location==="") {
             handleShowAlert("warning","Enter a location to get its weather!");
             return;
         } else {
             try{
-                const response = await fetch(`https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}?unitGroup=us&key=4TUZ9ERUN2ZP6N54MDMAQSUGU&contentType=json`);
+                const response = await fetch(`https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}?unitGroup=us&key=${apiKey}&contentType=json`);
                 if (!response.ok) {
                     throw new Error("Error fetching weather data!");
                 }
@@ -73,7 +78,7 @@ export default function UserLocation() {
                 const data: WeatherData = await response.json();
                 setWeatherData(data);
             }catch(error){
-                console.log(error);
+                console.error(error);
                 handleShowAlert("warning","The entered location does not exists!");
             }
         }
@@ -89,7 +94,41 @@ export default function UserLocation() {
             setCelsius(celsi);
         }
         setConvertTemp(!convertTemp);
-    }  
+    }
+
+    function handleUpdateDateTime() {
+        const now = new Date();
+
+        setCurrentTime(
+            now.toLocaleString("en-US", {
+                hour: "2-digit",
+                minute: "2-digit"
+            })
+        );
+
+        setCurrentDay(
+            now.toLocaleString("en-US", {
+                weekday: "short",
+                month: "short",
+                day: "numeric",
+                year: "numeric"
+            })
+        );
+    }
+
+    function handleGreetings() {
+        const hour = new Date().getHours();
+
+        if (hour >= 5 && hour < 12) {
+            setGreetings("Good Morning!");
+        } else if (hour >= 12 && hour < 17) {
+            setGreetings("Good Afternoon!");
+        } else if (hour >= 17 && hour < 21) {
+            setGreetings("Good Evening!");
+        } else {
+            setGreetings("Good Night!");
+        }
+    }
 
     useEffect(() => {
         if (navigator.geolocation) {
@@ -98,46 +137,64 @@ export default function UserLocation() {
                     const latitude = position.coords.latitude;
                     const longitude = position.coords.longitude;
                     const location = `${latitude},${longitude}`;
-                    fetchWeatherData(location);
+                    handleFetchWeatherData(location);
                 },
                 (error) => {
-                    console.log("Error getting geolocation: ", error);
+                    console.error("Error getting geolocation: ", error);
                 }
             );
         } else {
             console.log("Geolocation is not supported by this browser.");
         }
     }, []);
-    
+
+    useEffect(() => {
+        handleUpdateDateTime();
+        handleGreetings();
+
+        const interval = setInterval(() => {
+            handleUpdateDateTime();
+        }, 60000);
+
+        return () => clearInterval(interval);
+    }, []);    
+
     return (
         <>
             <div className="navbar">
                 <h1>SkyView Weather</h1>
                 <div>
                     <input type="text" placeholder="Enter location" value={location} onChange={handleInputChange}/>
-                    <button onClick={() => fetchWeatherData(location)}>Search</button>
+                    <button onClick={() => handleFetchWeatherData(location)}>Search</button>
                 </div>
                 <button onClick={handleThemeChange}>change theme</button>
             </div>
             {
                 weatherData!==null && 
                 <div className="weather-data">
-                    <div className="current-weather">
-                        <p>Timezone: {weatherData.timezone}</p>
-                        <p>Icon: {weatherData.currentConditions.icon}</p>
-                        <p>Conditions: {weatherData.currentConditions.conditions}</p>
-                        <p onClick={()=>handleTemperateChange(weatherData.currentConditions.temp)}>Temperature: {convertTemp?celsius+"°C":weatherData.currentConditions.temp+"°F"}</p>
-                        <p>Wind Speed: {weatherData.currentConditions.windspeed} km/h</p>
-                        <p>Visibility: {weatherData.currentConditions.visibility} km</p>
-                        <p>Humidity: {weatherData.currentConditions.humidity}%</p>
-                        <p>Precipitation Probability: {weatherData.currentConditions.precipprob}%</p>
+                    <div className="flex justify-between">
+                        <div className="current-weather">
+                            <p>Timezone: {weatherData.timezone}</p>
+                            <p>Icon: {weatherData.currentConditions.icon}</p>
+                            <p>Conditions: {weatherData.currentConditions.conditions}</p>
+                            <p onClick={()=>handleTemperateChange(weatherData.currentConditions.temp)}>Temperature: {convertTemp?celsius.toFixed(2)+"°C":weatherData.currentConditions.temp.toFixed(2)+"°F"}</p>
+                            <p>Wind Speed: {weatherData.currentConditions.windspeed} km/h</p>
+                            <p>Visibility: {weatherData.currentConditions.visibility} km</p>
+                            <p>Humidity: {weatherData.currentConditions.humidity}%</p>
+                            <p>Precipitation Probability: {weatherData.currentConditions.precipprob}%</p>
+                        </div>
+                        <div>
+                            <p>{greetings}</p>
+                            <p>{currentTime}</p>
+                            <p>{currentDay}</p>
+                        </div>
                     </div>
                     <div className="hourly-weather">
                         {/* Object.keys(weatherData.days[0].hours) returns hour: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23"]*/}
                         {/* now we iterate over array of strings */}
                         {
-                            Object.values(weatherData.days[0].hours).map((hour: HourlyWeatherData) => (
-                                <Weather hour={hour}/>
+                            Object.values(weatherData.days[0].hours).map((hour: HourlyWeatherData, index: number) => (
+                                <Weather key={index} hour={hour} type={"hourly"}/>
                             ))
                         }
                     </div>
@@ -145,7 +202,7 @@ export default function UserLocation() {
                         {
                             Object.values(weatherData.days).map((hour: HourlyWeatherData, index: number) => (
                                 index !== 0 && (
-                                    <Weather hour={hour}/>
+                                    <Weather key={index} hour={hour} type={"weekly"}/>
                                 )                                
                             ))
                         }
