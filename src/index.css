@@ -94,3 +94,10 @@ body {
     background-color: var(--primary-color);
     height: fit-content;
 }
+
+.cursor {
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(15px, 15px);
+}

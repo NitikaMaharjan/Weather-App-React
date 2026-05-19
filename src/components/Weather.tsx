@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { WeatherDetailContext } from "../context/weatherdetail/WeatherDetailContext";
 
 interface HourlyWeatherData {
   datetime: string;
@@ -16,6 +17,12 @@ export default function Weather({ hour, type }: {hour: HourlyWeatherData, type: 
   const [ celsius, setCelsius ] = useState<number>(0);
   const [ convertTemp, setConvertTemp ] = useState<boolean>(false);
 
+  const weatherDetailContext = useContext(WeatherDetailContext);
+  if (!weatherDetailContext) {
+    throw new Error("WeatherDetailContext must be used inside WeatherDetailContextProvider");
+  }
+  const { setHover, setWindSpeed, setVisibility, setHumidity } = weatherDetailContext;
+
   function handleTemperateChange() {
     if (!convertTemp){
       const celsi = (hour.temp - 32) * 5/9;
@@ -29,8 +36,22 @@ export default function Weather({ hour, type }: {hour: HourlyWeatherData, type: 
     return time.toLocaleString("en-US", { hour: "2-digit", minute: "2-digit"})
   }
 
+  const handleMouseOver = (windspeed: number, visibility: number, humidity: number) => {
+    setHover(true);
+    setWindSpeed(windspeed);
+    setVisibility(visibility);
+    setHumidity(humidity);
+  }
+  
+  const handleMouseOut = () => {
+    setHover(false);
+    setWindSpeed(0);
+    setVisibility(0);
+    setHumidity(0);
+  }
+
   return (
-    <div key={hour.datetime}>
+    <div key={hour.datetime}  onMouseOver={()=>handleMouseOver(hour.windspeed, hour.visibility, hour.humidity)} onMouseOut={handleMouseOut}>
       <p><b>Datetime: {type==="hourly"?handleDateTime():hour.datetime}</b></p>
       <p>Icon: {hour.icon}</p>
       <p>Conditions: {hour.conditions}</p>

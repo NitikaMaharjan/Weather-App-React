@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { ThemeContext } from "../context/theme/ThemeContext";
 import { AlertContext } from "../context/alert/AlertContext";
 import Weather from "./Weather";
+import Loading from "./Loading";
 
 interface HourlyWeatherData {
     datetime: string;
@@ -42,7 +43,7 @@ interface WeatherData {
 
 export default function UserLocation() {
 
-    const apiKey = import.meta.env.VITE_WEATHER_API_KEY;
+    const apiKey: number = import.meta.env.VITE_WEATHER_API_KEY;
 
     const [ weatherData, setWeatherData ] = useState<WeatherData | null>(null);
     const [ location, setLocation ] = useState<string>("");
@@ -51,6 +52,7 @@ export default function UserLocation() {
     const [ currentTime, setCurrentTime ] = useState<string>("");
     const [ currentDay, setCurrentDay ] = useState<string>("");
     const [ greetings, setGreetings ] = useState<string>("");
+    const [ loading, setLoading ] = useState<boolean>(true);
 
     const themeContext = useContext(ThemeContext);
     if (!themeContext) {
@@ -69,16 +71,22 @@ export default function UserLocation() {
             handleShowAlert("warning","Enter a location to get its weather!");
             return;
         } else {
+            setLoading(true);
             try{
                 const response = await fetch(`https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}?unitGroup=us&key=${apiKey}&contentType=json`);
                 if (!response.ok) {
+                    setLoading(false); 
                     throw new Error("Error fetching weather data!");
                 }
                 
                 const data: WeatherData = await response.json();
+
+                setTimeout(() => {
+                    setLoading(false);                    
+                }, 500);
                 setWeatherData(data);
             }catch(error){
-                console.error(error);
+                console.error(error);                   
                 handleShowAlert("warning","The entered location does not exists!");
             }
         }
@@ -90,14 +98,14 @@ export default function UserLocation() {
 
     function handleTemperateChange(x: number) {
         if (!convertTemp){
-            const celsi = (x - 32) * 5/9;
+            const celsi: number = (x - 32) * 5/9;
             setCelsius(celsi);
         }
         setConvertTemp(!convertTemp);
     }
 
     function handleUpdateDateTime() {
-        const now = new Date();
+        const now: Date = new Date();
 
         setCurrentTime(
             now.toLocaleString("en-US", {
@@ -117,7 +125,7 @@ export default function UserLocation() {
     }
 
     function handleGreetings() {
-        const hour = new Date().getHours();
+        const hour: number = new Date().getHours();
 
         if (hour >= 5 && hour < 12) {
             setGreetings("Good Morning!");
@@ -134,9 +142,9 @@ export default function UserLocation() {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
                 (position) => {
-                    const latitude = position.coords.latitude;
-                    const longitude = position.coords.longitude;
-                    const location = `${latitude},${longitude}`;
+                    const latitude: number = position.coords.latitude;
+                    const longitude: number = position.coords.longitude;
+                    const location: string = `${latitude},${longitude}`;
                     handleFetchWeatherData(location);
                 },
                 (error) => {
@@ -169,7 +177,11 @@ export default function UserLocation() {
                 </div>
                 <button onClick={handleThemeChange}>change theme</button>
             </div>
-            {
+            {   loading ?
+                <div className="w-full flex-1 flex justify-center items-center">
+                    <Loading/>
+                </div>
+                :    
                 weatherData!==null && 
                 <div className="weather-data">
                     <div className="flex justify-between">

@@ -1,11 +1,12 @@
 import { useState, type ReactNode } from "react";
-import { AlertContext, type AlertStatus, type Display } from "./AlertContext";
+import { AlertContext, type AlertStatus } from "./AlertContext";
+
 
 export function AlertProvider({ children }: { children: ReactNode }) {
 
     const [alertStatus, setAlertStatus] = useState<AlertStatus>("success");
     const [alertMessage, setAlertMessage] = useState<string>("");
-    const [display, setDisplay] = useState<Display>(false);
+    const [display, setDisplay] = useState<boolean>(false);
 
     function handleShowAlert(status: AlertStatus, message: string) {
         setAlertStatus(status);
@@ -18,7 +19,7 @@ export function AlertProvider({ children }: { children: ReactNode }) {
 
     return (
         <>
-            <AlertContext.Provider value={{ status: alertStatus, message: alertMessage, display, handleShowAlert }}>
+            <AlertContext.Provider value={{ handleShowAlert }}>
                 {children}
             </AlertContext.Provider>
 
