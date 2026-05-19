@@ -76,3 +76,21 @@ body {
     white-space: nowrap;
     scrollbar-width: none;
 }
+
+.alert-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding-top: 12px;
+}
+
+.alert-modal {
+    padding: 20px;
+    border-radius: 12px;
+    background-color: var(--primary-color);
+    height: fit-content;
+}

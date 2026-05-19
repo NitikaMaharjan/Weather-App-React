@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { ThemeContext } from "../context/theme/ThemeContext";
+import { AlertContext } from "../context/alert/AlertContext";
 
 export default function UserLocation() {
 
@@ -43,15 +44,21 @@ export default function UserLocation() {
     const [ weatherData, setWeatherData ] = useState<WeatherData | null>(null);
     const [ location, setLocation ] = useState<string>("");
 
-    const context = useContext(ThemeContext);
-    if (!context) {
+    const themeContext = useContext(ThemeContext);
+    if (!themeContext) {
         throw new Error("ThemeContext must be used inside ThemeProvider");
     }
-    const { handleThemeChange } = context;
+    const { handleThemeChange } = themeContext;
+    
+    const alertContext = useContext(AlertContext);
+    if (!alertContext) {
+        throw new Error("AlertContext must be used inside AlertProvider");
+    }
+    const { handleShowAlert } = alertContext;
 
     async function fetchWeatherData(location: string) {
         if (location==="") {
-            window.alert("Enter a location to get its weather!");
+            handleShowAlert("warning","Enter a location to get its weather!");
             return;
         } else {
             try{
@@ -64,7 +71,7 @@ export default function UserLocation() {
                 setWeatherData(data);
             }catch(error){
                 console.log(error);
-                window.alert("The entered location does not exists!");
+                handleShowAlert("warning","The entered location does not exists!");
             }
         }
     }
