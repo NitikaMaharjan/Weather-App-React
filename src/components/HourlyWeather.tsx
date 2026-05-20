@@ -12,7 +12,7 @@ interface HourlyWeatherData {
   precipprob: number;
 }
 
-export default function Weather({ hour, type }: {hour: HourlyWeatherData, type: string}) {
+export default function HourlyWeather({ hour, type }: {hour: HourlyWeatherData, type: string}) {
 
   const [ celsius, setCelsius ] = useState<number>(0);
   const [ convertTemp, setConvertTemp ] = useState<boolean>(false);
@@ -51,15 +51,20 @@ export default function Weather({ hour, type }: {hour: HourlyWeatherData, type: 
   }
 
   return (
-    <div key={hour.datetime}  onMouseOver={()=>handleMouseOver(hour.windspeed, hour.visibility, hour.humidity)} onMouseOut={handleMouseOut}>
-      <p><b>Datetime: {type==="hourly"?handleDateTime():hour.datetime}</b></p>
-      <p>Icon: {hour.icon}</p>
-      <p>Conditions: {hour.conditions}</p>
-      <p onClick={handleTemperateChange}>Temperature: {convertTemp?celsius.toFixed(2)+"°C":hour.temp.toFixed(2)+"°F"}</p>
-      <p>Wind Speed: {hour.windspeed} km/h</p>
-      <p>Visibility: {hour.visibility} km</p>
-      <p>Humidity: {hour.humidity}%</p>
-      <p>Precipitation Probability: {hour.precipprob}%</p>
+    <div className="hourly-weather-container" key={hour.datetime}  onMouseOver={()=>handleMouseOver(hour.windspeed, hour.visibility, hour.humidity)} onMouseOut={handleMouseOut}>
+      <div className="flex flex-col items-center mb-4">
+        <p><b>{type==="hourly"?handleDateTime():hour.datetime}</b></p>
+        <img src={`/icons/${hour.icon}.png`} alt={hour.icon} className="w-8 h-8"/>
+        <p>{hour.conditions}</p>
+      </div>
+      <div className="flex gap-2">
+        <img src="/icons/temperature.png" alt="temperature icon" className="w-6 h-6"/>
+        <p onClick={handleTemperateChange}>{convertTemp?celsius.toFixed(2)+"°C":hour.temp.toFixed(2)+"°F"}</p>
+      </div>
+      <div className="flex gap-2">
+        <img src="/icons/rain.png" alt="rain icon" className="w-6 h-6"/>
+        <p>{hour.precipprob}%</p>
+      </div>
     </div>
   )
 }

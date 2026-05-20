@@ -34,10 +34,19 @@ export function WeatherDetailProvider({ children }: { children: ReactNode }) {
             <div ref={cursorRef} className="cursor">
                 {
                     hover &&
-                    <div className="absolute bg-amber-400">
-                        <p>{windSpeed} km/h</p>
-                        <p>{visibility} km</p>
-                        <p>{humidity} %</p>
+                    <div className="absolute weather-details">
+                        <div className="flex gap-2">
+                            <img src="/icons/wind.png" alt="wind icon" className="icon"/>                            
+                            <p>{windSpeed} km/h</p>
+                        </div>
+                        <div className="flex gap-2">
+                            <img src="/icons/visibility.png" alt="visibility icon" className="icon"/>
+                            <p>{visibility} km</p>
+                        </div>
+                        <div className="flex gap-2">
+                            <img src="/icons/humidity.png" alt="humidity icon" className="icon"/>
+                            <p>{humidity} %</p>
+                        </div>                        
                     </div>
                 }
             </div>

@@ -1,7 +1,8 @@
 import { useContext, useEffect, useState } from "react";
 import { ThemeContext } from "../context/theme/ThemeContext";
 import { AlertContext } from "../context/alert/AlertContext";
-import Weather from "./Weather";
+import HourlyWeather from "./HourlyWeather";
+import WeeklyWeather from "./WeeklyWeather";
 import Loading from "./Loading";
 
 interface HourlyWeatherData {
@@ -211,7 +212,7 @@ export default function UserLocation() {
                                     <p style={{fontSize: "16px"}}>{currentDay}</p>
                                 </div>
                             </div>
-                            <div className="flex justify-center gap-10">
+                            <div className="flex justify-center gap-6">
                                 <div className="weather-cube">
                                     <div className="flex flex-col items-center gap-1">
                                         <img src="/icons/temperature.png" alt="temperature icon" className="w-12 h-12"/>
@@ -248,23 +249,27 @@ export default function UserLocation() {
                                     <p style={{fontSize: "16px"}} >{weatherData.currentConditions.precipprob}%</p>
                                 </div>
                             </div>
-                        </div>               
-                        <div className="hourly-weather">
-                            {/* Object.keys(weatherData.days[0].hours) returns hour: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23"]*/}
-                            {/* now we iterate over array of strings */}
-                            {
-                                Object.values(weatherData.days[0].hours).map((hour: HourlyWeatherData, index: number) => (
-                                    <Weather key={index} hour={hour} type={"hourly"}/>
-                                ))
-                            }
                         </div>
+                        <div className="flex flex-col gap-4">
+                            <h1><b>Hourly Weather</b></h1>
+                            <div className="hourly-weather">
+                                {/* Object.keys(weatherData.days[0].hours) returns hour: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23"]*/}
+                                {/* now we iterate over array of strings */}
+                                {
+                                    Object.values(weatherData.days[0].hours).map((hour: HourlyWeatherData, index: number) => (
+                                        <HourlyWeather key={index} hour={hour} type={"hourly"}/>
+                                    ))
+                                }
+                            </div>
+                        </div>           
                     </div>
                     <div className="right-div">
+                        <h1><b>Weekly Weather</b></h1>
                         <div className="weekly-weather">
                             {
                                 Object.values(weatherData.days).map((hour: HourlyWeatherData, index: number) => (
                                     index !== 0 && (
-                                        <Weather key={index} hour={hour} type={"weekly"}/>
+                                        <WeeklyWeather key={index} hour={hour} type={"weekly"}/>
                                     )                                
                                 ))
                             }
