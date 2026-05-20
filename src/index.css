@@ -1,29 +1,29 @@
 @import "tailwindcss";
 
 :root {
-    --bg-color: #e4f1f7;
+    --bg-color: #d5eaf4;
     --card-color: #ffffff;
     --text-color: #000000;
     --primary-color: #5096ad;
-    --secondary-color: #cfe9f5;
+    --secondary-color: #d5eaf4;
 }
 
 /* light theme */
 [data-theme="light"] {
-    --bg-color: #e4f1f7;
+    --bg-color: #d5eaf4;
     --card-color: #ffffff;
     --text-color: #000000;
     --primary-color: #5096ad;
-    --secondary-color: #cfe9f5;
+    --secondary-color: #d5eaf4;
 }
 
 /* dark theme */
 [data-theme="dark"] {
     --bg-color: #50647c;
     --card-color: #162841;
-    --text-color: #f1f1f1;
-    --primary-color: #355472;
-    --secondary-color: #020a1f;
+    --text-color: #ffffff;
+    --primary-color: #020a1f;
+    --secondary-color: #000000;
 }
 
 body {
@@ -46,7 +46,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 20px;
+    padding: 12px 20px;
     border-radius: 12px;
     background-color: var(--card-color);
 }
@@ -100,4 +100,45 @@ body {
   pointer-events: none;
   z-index: 9999;
   transform: translate(15px, 15px);
+}
+
+.icon {
+    width: 18px;
+    height: auto;
+}
+
+.input-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background-color: var(--bg-color);
+    padding: 6px 8px 6px 16px;
+    border-radius: 32px;
+}
+
+.search-input {
+    width: 600px;
+    color: var(--text-color);
+}
+
+.search-input:focus {
+    outline: none;
+}
+
+.search-btn {
+    cursor: pointer;
+    background-color: var(--primary-color);
+    padding: 8px 20px;
+    border-radius: 32px;
+    color: var(--text-color);
+}
+
+.theme-btn {
+    padding: 8px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.theme-btn:hover {
+    background-color: var(--bg-color);    
 }

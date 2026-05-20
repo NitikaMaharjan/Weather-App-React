@@ -58,7 +58,7 @@ export default function UserLocation() {
     if (!themeContext) {
         throw new Error("ThemeContext must be used inside ThemeProvider");
     }
-    const { handleThemeChange } = themeContext;
+    const { theme, handleThemeChange } = themeContext;
     
     const alertContext = useContext(AlertContext);
     if (!alertContext) {
@@ -138,6 +138,10 @@ export default function UserLocation() {
         }
     }
 
+    function handleClearInput() {
+        setLocation("");
+    }
+
     useEffect(() => {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
@@ -171,11 +175,15 @@ export default function UserLocation() {
         <>
             <div className="navbar">
                 <h1>SkyView Weather</h1>
-                <div>
-                    <input type="text" placeholder="Enter location" value={location} onChange={handleInputChange}/>
-                    <button onClick={() => handleFetchWeatherData(location)}>Search</button>
+                <div className="flex">
+                    <div className="input-bar">
+                        <img src={`${theme==="light"?"/icons/search.png":"/icons/searchlight.png"}`} alt="search icon" className="icon"/>
+                        <input type="text" placeholder="Enter location" value={location} onChange={handleInputChange} className="search-input"/>
+                        <img src={`${theme==="light"?"/icons/close.png":"/icons/closelight.png"}`} alt="close icon" className={`icon cursor-pointer ${location==="" ? "opacity-0" : "opacity-100"}`} onClick={handleClearInput}/>
+                        <button onClick={() => handleFetchWeatherData(location)} className="search-btn">Search</button>
+                    </div>
                 </div>
-                <button onClick={handleThemeChange}>change theme</button>
+                <button onClick={handleThemeChange} className="theme-btn"><img src={`${theme==="light"?"/icons/moon.png":"/icons/sun.png"}`} alt="theme icon" className="w-6"/></button>
             </div>
             {   loading ?
                 <div className="w-full flex-1 flex justify-center items-center">
