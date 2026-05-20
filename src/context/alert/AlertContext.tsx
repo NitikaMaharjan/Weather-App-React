@@ -1,6 +1,6 @@
 import { createContext } from "react";
 
-export type AlertStatus = "success" | "warning" | "error";
+export type AlertStatus = "Success" | "Warning" | "Error";
 
 export interface AlertContextType {
     handleShowAlert: (status: AlertStatus, message: string) => void;

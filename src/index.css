@@ -85,14 +85,18 @@ body {
     width: 100%;
     display: flex;
     justify-content: center;
-    padding-top: 12px;
+    padding-top: 60px;
 }
 
 .alert-modal {
-    padding: 20px;
+    width: 400px;
+    padding: 12px 20px;
     border-radius: 12px;
-    background-color: var(--primary-color);
     height: fit-content;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: black;
 }
 
 .cursor {
@@ -141,4 +145,8 @@ body {
 
 .theme-btn:hover {
     background-color: var(--bg-color);    
+}
+
+.warning-icon {
+  color: #FFCA28;
 }

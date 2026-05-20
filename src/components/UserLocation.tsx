@@ -68,7 +68,7 @@ export default function UserLocation() {
 
     async function handleFetchWeatherData(location: string) {
         if (location==="") {
-            handleShowAlert("warning","Enter a location to get its weather!");
+            handleShowAlert("Warning","Enter a location to get its weather!");
             return;
         } else {
             setLoading(true);
@@ -87,7 +87,7 @@ export default function UserLocation() {
                 setWeatherData(data);
             }catch(error){
                 console.error(error);                   
-                handleShowAlert("warning","The entered location does not exists!");
+                handleShowAlert("Warning","The entered location does not exists!");
             }
         }
     }
