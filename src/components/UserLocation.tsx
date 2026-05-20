@@ -174,7 +174,7 @@ export default function UserLocation() {
     return (
         <>
             <div className="navbar">
-                <h1>SkyView Weather</h1>
+                <h1><b>SkyView Weather</b></h1>
                 <div className="flex">
                     <div className="input-bar">
                         <img src={`${theme==="light"?"/icons/search.png":"/icons/searchlight.png"}`} alt="search icon" className="icon"/>
@@ -192,40 +192,44 @@ export default function UserLocation() {
                 :    
                 weatherData!==null && 
                 <div className="weather-data">
-                    <div className="flex justify-between">
-                        <div className="current-weather">
-                            <p>Timezone: {weatherData.timezone}</p>
-                            <p>Icon: {weatherData.currentConditions.icon}</p>
-                            <p>Conditions: {weatherData.currentConditions.conditions}</p>
-                            <p onClick={()=>handleTemperateChange(weatherData.currentConditions.temp)}>Temperature: {convertTemp?celsius.toFixed(2)+"°C":weatherData.currentConditions.temp.toFixed(2)+"°F"}</p>
-                            <p>Wind Speed: {weatherData.currentConditions.windspeed} km/h</p>
-                            <p>Visibility: {weatherData.currentConditions.visibility} km</p>
-                            <p>Humidity: {weatherData.currentConditions.humidity}%</p>
-                            <p>Precipitation Probability: {weatherData.currentConditions.precipprob}%</p>
+                    <div className="left-div">                
+                        <div className="flex justify-between">
+                            <div className="current-weather">
+                                <p>Timezone: {weatherData.timezone}</p>
+                                <p>Icon: {weatherData.currentConditions.icon}</p>
+                                <p>Conditions: {weatherData.currentConditions.conditions}</p>
+                                <p onClick={()=>handleTemperateChange(weatherData.currentConditions.temp)}>Temperature: {convertTemp?celsius.toFixed(2)+"°C":weatherData.currentConditions.temp.toFixed(2)+"°F"}</p>
+                                <p>Wind Speed: {weatherData.currentConditions.windspeed} km/h</p>
+                                <p>Visibility: {weatherData.currentConditions.visibility} km</p>
+                                <p>Humidity: {weatherData.currentConditions.humidity}%</p>
+                                <p>Precipitation Probability: {weatherData.currentConditions.precipprob}%</p>
+                            </div>
+                            <div>
+                                <p>{greetings}</p>
+                                <p>{currentTime}</p>
+                                <p>{currentDay}</p>
+                            </div>
                         </div>
-                        <div>
-                            <p>{greetings}</p>
-                            <p>{currentTime}</p>
-                            <p>{currentDay}</p>
+                        <div className="hourly-weather">
+                            {/* Object.keys(weatherData.days[0].hours) returns hour: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23"]*/}
+                            {/* now we iterate over array of strings */}
+                            {
+                                Object.values(weatherData.days[0].hours).map((hour: HourlyWeatherData, index: number) => (
+                                    <Weather key={index} hour={hour} type={"hourly"}/>
+                                ))
+                            }
                         </div>
                     </div>
-                    <div className="hourly-weather">
-                        {/* Object.keys(weatherData.days[0].hours) returns hour: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23"]*/}
-                        {/* now we iterate over array of strings */}
-                        {
-                            Object.values(weatherData.days[0].hours).map((hour: HourlyWeatherData, index: number) => (
-                                <Weather key={index} hour={hour} type={"hourly"}/>
-                            ))
-                        }
-                    </div>
-                    <div className="weekly-weather">
-                        {
-                            Object.values(weatherData.days).map((hour: HourlyWeatherData, index: number) => (
-                                index !== 0 && (
-                                    <Weather key={index} hour={hour} type={"weekly"}/>
-                                )                                
-                            ))
-                        }
+                    <div className="right-div">
+                        <div className="weekly-weather">
+                            {
+                                Object.values(weatherData.days).map((hour: HourlyWeatherData, index: number) => (
+                                    index !== 0 && (
+                                        <Weather key={index} hour={hour} type={"weekly"}/>
+                                    )                                
+                                ))
+                            }
+                        </div>
                     </div>
                 </div>
             }
