@@ -128,13 +128,13 @@ export default function UserLocation() {
         const hour: number = new Date().getHours();
 
         if (hour >= 5 && hour < 12) {
-            setGreetings("Good Morning!");
+            setGreetings("🌅 Good Morning!");
         } else if (hour >= 12 && hour < 17) {
-            setGreetings("Good Afternoon!");
+            setGreetings("☀️ Good Afternoon!");
         } else if (hour >= 17 && hour < 21) {
-            setGreetings("Good Evening!");
+            setGreetings("🌇 Good Evening!");
         } else {
-            setGreetings("Good Night!");
+            setGreetings("🌙 Good Night!");
         }
     }
 
@@ -192,24 +192,63 @@ export default function UserLocation() {
                 :    
                 weatherData!==null && 
                 <div className="weather-data">
-                    <div className="left-div">                
-                        <div className="flex justify-between">
-                            <div className="current-weather">
-                                <p>Timezone: {weatherData.timezone}</p>
-                                <p>Icon: {weatherData.currentConditions.icon}</p>
-                                <p>Conditions: {weatherData.currentConditions.conditions}</p>
-                                <p onClick={()=>handleTemperateChange(weatherData.currentConditions.temp)}>Temperature: {convertTemp?celsius.toFixed(2)+"°C":weatherData.currentConditions.temp.toFixed(2)+"°F"}</p>
-                                <p>Wind Speed: {weatherData.currentConditions.windspeed} km/h</p>
-                                <p>Visibility: {weatherData.currentConditions.visibility} km</p>
-                                <p>Humidity: {weatherData.currentConditions.humidity}%</p>
-                                <p>Precipitation Probability: {weatherData.currentConditions.precipprob}%</p>
+                    <div className="left-div">
+                        <div className="flex flex-col gap-14">
+                            <div className="flex justify-between">
+                                <div className="flex items-center gap-1 py-3 px-5 h-fit w-fit mt-3 location">
+                                    <img src={`${theme==="light"?"/icons/location.png":"/icons/locationlight.png"}`} alt="location icon" className="w-4 h-4"/>
+                                    <p className="text-2xl">{weatherData.timezone}</p>
+                                </div>
+                                <div className="flex flex-col items-center gap-8">
+                                    <p style={{fontSize: "48px"}}><b>{greetings}</b></p>
+                                    <div className="flex flex-col items-center gap-3">
+                                        <img src={`/icons/${weatherData.currentConditions.icon}.png`} alt={weatherData.currentConditions.icon} className="w-12 h-12"/>
+                                        <p style={{fontSize: "16px"}}>{weatherData.currentConditions.conditions}</p>
+                                    </div>
+                                </div>
+                                <div className="mt-4 text-right leading-loose">
+                                    <p style={{fontSize: "16px"}}>{currentTime}</p>
+                                    <p style={{fontSize: "16px"}}>{currentDay}</p>
+                                </div>
                             </div>
-                            <div>
-                                <p>{greetings}</p>
-                                <p>{currentTime}</p>
-                                <p>{currentDay}</p>
+                            <div className="flex justify-center gap-10">
+                                <div className="weather-cube">
+                                    <div className="flex flex-col items-center gap-1">
+                                        <img src="/icons/temperature.png" alt="temperature icon" className="w-12 h-12"/>
+                                        <p>Temperature</p>
+                                    </div>
+                                    <p  style={{fontSize: "16px"}} onClick={()=>handleTemperateChange(weatherData.currentConditions.temp)} className="cursor-pointer">{convertTemp?celsius.toFixed(2)+"°C":weatherData.currentConditions.temp.toFixed(2)+"°F"}</p>
+                                </div>
+                                <div className="weather-cube">
+                                    <div className="flex flex-col items-center gap-1">
+                                        <img src="/icons/wind.png" alt="wind icon" className="w-12 h-12"/>
+                                        <p>Wind Speed</p>
+                                    </div>
+                                    <p style={{fontSize: "16px"}} >{weatherData.currentConditions.windspeed} km/h</p>
+                                </div>
+                                <div className="weather-cube">
+                                    <div className="flex flex-col items-center gap-1">
+                                        <img src="/icons/visibility.png" alt="visibility icon" className="w-12 h-12"/>
+                                        <p>Visibility</p>                             
+                                    </div>
+                                    <p style={{fontSize: "16px"}} >{weatherData.currentConditions.visibility} km</p>
+                                </div>
+                                <div className="weather-cube">
+                                    <div className="flex flex-col items-center gap-1">
+                                        <img src="/icons/humidity.png" alt="humidity icon" className="w-12 h-12"/>
+                                        <p>Humidity</p>
+                                    </div>
+                                    <p style={{fontSize: "16px"}} >{weatherData.currentConditions.humidity}%</p>
+                                </div>
+                                <div className="weather-cube">
+                                    <div className="flex flex-col items-center gap-1">
+                                        <img src="/icons/rain.png" alt="rain icon" className="w-12 h-12"/>
+                                        <p>Chances of Rain</p>
+                                    </div>
+                                    <p style={{fontSize: "16px"}} >{weatherData.currentConditions.precipprob}%</p>
+                                </div>
                             </div>
-                        </div>
+                        </div>               
                         <div className="hourly-weather">
                             {/* Object.keys(weatherData.days[0].hours) returns hour: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23"]*/}
                             {/* now we iterate over array of strings */}

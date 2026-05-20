@@ -23,7 +23,7 @@
     --card-color: #162841;
     --text-color: #ffffff;
     --primary-color: #020a1f;
-    --secondary-color: #000000;
+    --secondary-color: #020a1f;
 }
 
 body {
@@ -167,4 +167,21 @@ p {
 
 .warning-icon {
   color: #FFCA28;
+}
+
+.location {
+    background-color: var(--primary-color);
+    border-radius: 32px;
+}
+
+.weather-cube {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 160px;
+    height: 160px;
+    background-color: var(--secondary-color);
+    border-radius: 12px;
+    padding: 20px;
 }
