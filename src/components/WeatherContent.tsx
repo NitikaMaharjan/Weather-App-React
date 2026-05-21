@@ -78,25 +78,25 @@ export default function WeatherContent() {
                 weatherData!==null && 
                 <div className="weather-data">
                     <div className="left-div">
-                        <div className="flex flex-col gap-14">
+                        <div className="flex flex-col md:gap-2 lg:gap-4">
                             <div className="flex justify-between">
                                 <div className="flex items-center gap-1 py-3 px-5 h-fit w-fit mt-3 location">
                                     <img src={`${theme==="light"?"/icons/location.png":"/icons/locationlight.png"}`} alt="location icon" className="w-5 h-5"/>
-                                    <p style={{fontSize: "14px"}}>{weatherData.timezone}</p>
+                                    <p className="left-div-p">{weatherData.timezone}</p>
                                 </div>
-                                <div className="flex flex-col items-center gap-8">
-                                    <p style={{fontSize: "48px"}}><b>{greetings}</b></p>
+                                <div className="flex flex-col items-center gap-4">
+                                    <p className="greetings"><b>{greetings}</b></p>
                                     <div className="flex flex-col items-center gap-3">
                                         <img src={`/icons/${weatherData.currentConditions.icon}.png`} alt={weatherData.currentConditions.icon} className="w-16 h-16"/>
-                                        <p style={{fontSize: "14px"}}>{weatherData.currentConditions.conditions}</p>
+                                        <p className="left-div-p">{weatherData.currentConditions.conditions}</p>
                                     </div>
                                 </div>
-                                <div className="mt-4 text-right leading-loose">
-                                    <p style={{fontSize: "14px"}}>{currentTime}</p>
-                                    <p style={{fontSize: "14px"}}>{currentDay}</p>
+                                <div className="mt-3 text-right leading-loose">
+                                    <p className="left-div-p">{currentTime}</p>
+                                    <p className="left-div-p">{currentDay}</p>
                                 </div>
                             </div>
-                            <div className="flex justify-center gap-6">
+                            <div className="flex justify-center lg:gap-4 xl:gap-6 weather-cube-div">
                                 <WeatherCube icon={"temperature.png"} title={"Temperature"} value={weatherData.currentConditions.temp} unit={""}/>
                                 <WeatherCube icon={"wind.png"} title={"Wind Speed"} value={weatherData.currentConditions.windspeed} unit={"km/h"}/>
                                 <WeatherCube icon={"visibility.png"} title={"Visibility"} value={weatherData.currentConditions.visibility} unit={"km"}/>

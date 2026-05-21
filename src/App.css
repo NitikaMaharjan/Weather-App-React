@@ -1,24 +1,111 @@
-.back-btn {
-    cursor: pointer;
-    background-color: var(--primary-color);
-    padding: 8px 20px;
-    border-radius: 32px;
-    color: var(--text-color);
-    font-size: 14px;
-    opacity: 90%;
+@media (max-width: 1536px) {
+    #root {
+        gap: 20px;
+        padding: 20px;
+    }
+
+    .weather-data {
+        display: grid;
+        grid-template-columns: 1000px 1fr;
+        gap: 20px;
+    }
+
+    .right-div {
+        height: 600px;
+    }
+
+    .greetings {
+        font-size: 38px;
+    }
+
+    .left-div-p {
+        font-size: 16px;
+    }
 }
 
-.back-btn:hover {
-    opacity: 100%;
+@media (max-width: 1024px) {
+    #root {
+        gap: 12px;
+        padding: 12px;
+    }
+
+    p {
+        font-size: 12px;
+    }
+
+    .search-input {
+        width: 400px;
+    }
+
+    .weather-data {
+        display: grid;
+        grid-template-columns: 580px 1fr;
+        gap: 12px;
+    }
+
+    .weather-cube {
+        width: 130px;
+        height: 120px;
+        padding: 6px;
+    }
+    
+    .weather-cube img{
+        width: 24px;
+        height: 24px;
+    }
+
+    .right-div {
+        height: 540px;
+    }
+
+    .greetings {
+        font-size: 24px;
+    }
+
+    .left-div-p {
+        font-size: 12px;
+    }
 }
 
-.weekly-weather-card {
-    background-color: var(--card-color);
-    border-radius: 16px;
-    padding: 30px;
-    width: 220px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+@media (max-width: 640px) {
+    p {
+        font-size: 12px;
+    }
+
+    .search-input {
+        width: 100px;
+    }
+
+    .weather-data {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .weather-cube-div {
+        margin-top: 12px;
+        gap: 8px;
+    }
+
+    .weather-cube {
+        width: 100px;
+        height: 120px;
+        padding: 6px;
+    }
+    
+    .weather-cube img{
+        width: 24px;
+        height: 24px;
+    }
+
+    .right-div {
+        height: 540px;
+    }
+
+    .greetings {
+        font-size: 24px;
+    }
+
+    .left-div-p {
+        font-size: 12px;
+    }
 }
