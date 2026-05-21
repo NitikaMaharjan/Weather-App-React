@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
-import { WeatherDetailContext } from "./WeatherDetailContext";
+import { WeatherDetailContext } from "./WeatherDetailContext.ts";
 
 export function WeatherDetailProvider({ children }: { children: ReactNode }) {
 

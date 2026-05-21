@@ -22,7 +22,7 @@
     --bg-color: #50647c;
     --card-color: #162841;
     --text-color: #ffffff;
-    --primary-color: #020a1f;
+    --primary-color: #000000;
     --secondary-color: #020a1f;
 }
 
@@ -106,7 +106,7 @@ p {
     width: 100%;
     display: flex;
     justify-content: center;
-    padding-top: 60px;
+    padding-top: 44px;
 }
 
 .alert-modal {
@@ -137,7 +137,13 @@ p {
     align-items: center;
     gap: 12px;
     background-color: var(--bg-color);
-    padding: 6px 8px 6px 16px;
+    padding: 12px 18px;
+    border-radius: 32px;
+}
+
+.theme-toggle {
+    background-color: var(--bg-color);
+    padding: 4px;
     border-radius: 32px;
 }
 
@@ -154,10 +160,15 @@ p {
 .search-btn {
     cursor: pointer;
     background-color: var(--primary-color);
-    padding: 8px 20px;
+    padding: 2px 20px;
     border-radius: 32px;
     color: var(--text-color);
     font-size: 14px;
+    opacity: 90%;
+}
+
+.search-btn:hover {
+    opacity: 100%;
 }
 
 .theme-btn {
@@ -166,8 +177,10 @@ p {
     cursor: pointer;
 }
 
-.theme-btn:hover {
-    background-color: var(--bg-color);    
+.theme-btn-active {
+    padding: 8px;
+    border-radius: 50%;
+    background-color: var(--card-color);
 }
 
 .warning-icon {
@@ -175,7 +188,7 @@ p {
 }
 
 .location {
-    background-color: var(--primary-color);
+    background-color: var(--secondary-color);
     border-radius: 32px;
 }
 

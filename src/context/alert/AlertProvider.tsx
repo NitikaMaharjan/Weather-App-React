@@ -1,5 +1,5 @@
 import { useState, type ReactNode } from "react";
-import { AlertContext, type AlertStatus } from "./AlertContext";
+import { AlertContext, type AlertStatus } from "./AlertContext.ts";
 
 
 export function AlertProvider({ children }: { children: ReactNode }) {

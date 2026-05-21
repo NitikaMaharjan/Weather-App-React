@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { WeatherDetailContext } from "../context/weatherdetail/WeatherDetailContext";
+import { WeatherDetailContext } from "../context/weatherdetail/WeatherDetailContext.ts";
 
 interface HourlyWeatherData {
   datetime: string;

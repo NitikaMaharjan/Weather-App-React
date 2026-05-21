@@ -1,101 +1,30 @@
 import { useContext, useEffect, useState } from "react";
 import { ThemeContext } from "../context/theme/ThemeContext";
-import { AlertContext } from "../context/alert/AlertContext";
 import HourlyWeather from "./HourlyWeather";
 import WeeklyWeather from "./WeeklyWeather";
 import Loading from "./Loading";
-
-interface HourlyWeatherData {
-    datetime: string;
-    icon: string;
-    conditions: string;
-    temp: number;
-    windspeed: number;
-    visibility: number;
-    humidity: number;
-    precipprob: number;
-}
-
-interface DayWeatherData {
-    datetime: string;
-    icon: string;
-    conditions: string;
-    temp: number;
-    windspeed: number;
-    visibility: number;
-    humidity: number;
-    precipprob: number;
-    hours: HourlyWeatherData[];
-}
-
-interface WeatherData {
-    timezone: string;
-    currentConditions: {
-        icon: string;
-        conditions: string;
-        temp: number;
-        windspeed: number;
-        visibility: number;
-        humidity: number;
-        precipprob: number;
-    };
-    days: DayWeatherData[];
-}
+import { WeatherDataContext } from "../context/weather/WeatherDataContext";
+import { type HourlyWeatherData } from "../context/weather/WeatherDataContext.ts";
 
 export default function UserLocation() {
 
-    const apiKey: number = import.meta.env.VITE_WEATHER_API_KEY;
-
-    const [ weatherData, setWeatherData ] = useState<WeatherData | null>(null);
-    const [ location, setLocation ] = useState<string>("");
     const [ celsius, setCelsius ] = useState<number>(0);
     const [ convertTemp, setConvertTemp ] = useState<boolean>(false);
     const [ currentTime, setCurrentTime ] = useState<string>("");
     const [ currentDay, setCurrentDay ] = useState<string>("");
-    const [ greetings, setGreetings ] = useState<string>("");
-    const [ loading, setLoading ] = useState<boolean>(true);
+    const [ greetings, setGreetings ] = useState<string>("");   
 
     const themeContext = useContext(ThemeContext);
     if (!themeContext) {
         throw new Error("ThemeContext must be used inside ThemeProvider");
     }
-    const { theme, handleThemeChange } = themeContext;
+    const { theme } = themeContext;
     
-    const alertContext = useContext(AlertContext);
-    if (!alertContext) {
-        throw new Error("AlertContext must be used inside AlertProvider");
+    const weatherDataContext = useContext(WeatherDataContext);
+    if (!weatherDataContext) {
+        throw new Error("weatherDataContext must be used inside weatherDataProvider");
     }
-    const { handleShowAlert } = alertContext;
-
-    async function handleFetchWeatherData(location: string) {
-        if (location==="") {
-            handleShowAlert("Warning","Enter a location to get its weather!");
-            return;
-        } else {
-            setLoading(true);
-            try{
-                const response = await fetch(`https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}?unitGroup=us&key=${apiKey}&contentType=json`);
-                if (!response.ok) {
-                    setLoading(false); 
-                    throw new Error("Error fetching weather data!");
-                }
-                
-                const data: WeatherData = await response.json();
-
-                setTimeout(() => {
-                    setLoading(false);                    
-                }, 500);
-                setWeatherData(data);
-            }catch(error){
-                console.error(error);                   
-                handleShowAlert("Warning","The entered location does not exists!");
-            }
-        }
-    }
-
-    function handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
-        setLocation(event.target.value);        
-    }
+    const { loading, weatherData, handleFetchWeatherData } = weatherDataContext;    
 
     function handleTemperateChange(x: number) {
         if (!convertTemp){
@@ -129,18 +58,14 @@ export default function UserLocation() {
         const hour: number = new Date().getHours();
 
         if (hour >= 5 && hour < 12) {
-            setGreetings("🌅 Good Morning!");
+            setGreetings("Good Morning!");
         } else if (hour >= 12 && hour < 17) {
-            setGreetings("☀️ Good Afternoon!");
+            setGreetings("Good Afternoon!");
         } else if (hour >= 17 && hour < 21) {
-            setGreetings("🌇 Good Evening!");
+            setGreetings("Good Evening!");
         } else {
-            setGreetings("🌙 Good Night!");
+            setGreetings("Good Night!");
         }
-    }
-
-    function handleClearInput() {
-        setLocation("");
     }
 
     useEffect(() => {
@@ -174,18 +99,6 @@ export default function UserLocation() {
 
     return (
         <>
-            <div className="navbar">
-                <h1><b>SkyView Weather</b></h1>
-                <div className="flex">
-                    <div className="input-bar">
-                        <img src={`${theme==="light"?"/icons/search.png":"/icons/searchlight.png"}`} alt="search icon" className="icon"/>
-                        <input type="text" placeholder="Enter location" value={location} onChange={handleInputChange} className="search-input"/>
-                        <img src={`${theme==="light"?"/icons/close.png":"/icons/closelight.png"}`} alt="close icon" className={`icon cursor-pointer ${location==="" ? "opacity-0" : "opacity-100"}`} onClick={handleClearInput}/>
-                        <button onClick={() => handleFetchWeatherData(location)} className="search-btn">Search</button>
-                    </div>
-                </div>
-                <button onClick={handleThemeChange} className="theme-btn"><img src={`${theme==="light"?"/icons/moon.png":"/icons/sun.png"}`} alt="theme icon" className="w-6"/></button>
-            </div>
             {   loading ?
                 <div className="w-full flex-1 flex justify-center items-center">
                     <Loading/>
@@ -198,7 +111,7 @@ export default function UserLocation() {
                             <div className="flex justify-between">
                                 <div className="flex items-center gap-1 py-3 px-5 h-fit w-fit mt-3 location">
                                     <img src={`${theme==="light"?"/icons/location.png":"/icons/locationlight.png"}`} alt="location icon" className="w-4 h-4"/>
-                                    <p className="text-2xl">{weatherData.timezone}</p>
+                                    <p style={{fontSize: "16px"}}>{weatherData.timezone}</p>
                                 </div>
                                 <div className="flex flex-col items-center gap-8">
                                     <p style={{fontSize: "48px"}}><b>{greetings}</b></p>
