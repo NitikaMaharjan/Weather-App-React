@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { WeatherDetailContext } from "./WeatherDetailContext.ts";
+import WeatherDetails from "../../components/WeatherDetails";
 
 export function WeatherDetailProvider({ children }: { children: ReactNode }) {
 
@@ -35,18 +36,9 @@ export function WeatherDetailProvider({ children }: { children: ReactNode }) {
                 {
                     hover &&
                     <div className="absolute weather-details">
-                        <div className="flex gap-2">
-                            <img src="/icons/wind.png" alt="wind icon" className="icon"/>                            
-                            <p>{windSpeed} km/h</p>
-                        </div>
-                        <div className="flex gap-2">
-                            <img src="/icons/visibility.png" alt="visibility icon" className="icon"/>
-                            <p>{visibility} km</p>
-                        </div>
-                        <div className="flex gap-2">
-                            <img src="/icons/humidity.png" alt="humidity icon" className="icon"/>
-                            <p>{humidity} %</p>
-                        </div>                        
+                        <WeatherDetails src={"/icons/wind.png"} alt={"wind icon"} value={windSpeed} unit={"km/h"}/>
+                        <WeatherDetails src={"/icons/visibility.png"} alt={"visibility icon"} value={visibility} unit={"km"}/>
+                        <WeatherDetails src={"/icons/humidity.png"} alt={"humidity icon"} value={humidity} unit={"%"}/>
                     </div>
                 }
             </div>

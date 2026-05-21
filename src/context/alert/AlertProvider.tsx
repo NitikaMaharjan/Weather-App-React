@@ -1,7 +1,6 @@
 import { useState, type ReactNode } from "react";
 import { AlertContext, type AlertStatus } from "./AlertContext.ts";
 
-
 export function AlertProvider({ children }: { children: ReactNode }) {
 
     const [alertStatus, setAlertStatus] = useState<AlertStatus>("Success");

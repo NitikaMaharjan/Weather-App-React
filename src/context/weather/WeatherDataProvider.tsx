@@ -1,4 +1,4 @@
-import { useContext, useState, type ReactNode } from "react";
+import { useContext, useEffect, useState, type ReactNode } from "react";
 import { WeatherDataContext, type WeatherData } from "./WeatherDataContext.ts";
 import { AlertContext } from "../alert/AlertContext";
 
@@ -40,6 +40,24 @@ export function WeatherDataProvider({ children }: { children: ReactNode }) {
             }
         }
     }
+
+    useEffect(() => {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(
+            (position) => {
+              const latitude: number = position.coords.latitude;
+              const longitude: number = position.coords.longitude;
+              const location: string = `${latitude},${longitude}`;
+              handleFetchWeatherData(location);
+            },
+            (error) => {
+              console.error("Error getting geolocation: ", error);
+            }
+          );
+        } else {
+          console.log("Geolocation is not supported by this browser.");
+        }
+      }, []);
 
     return (
         <>

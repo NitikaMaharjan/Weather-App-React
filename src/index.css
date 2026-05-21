@@ -34,16 +34,21 @@ body {
     color: var(--text-color);
 }
 
-p {
-    font-size: 13px;;
-}
-
 #root {
     height: 100vh;
     display: flex;
     flex-direction: column;
     gap: 30px;
     padding: 40px;
+}
+
+p {
+    font-size: 13px;;
+}
+
+.icon {
+    width: 18px;
+    height: 18px;
 }
 
 .navbar {
@@ -53,83 +58,7 @@ p {
     padding: 12px 20px;
     border-radius: 12px;
     background-color: var(--card-color);
-}
-
-.weather-data {
-    display: grid;
-    grid-template-columns: 1300px 1fr;
-    gap: 40px;
-}
-
-.left-div {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    background-color: var(--card-color);
-    padding: 20px;
-    border-radius: 12px;
-}
-
-.hourly-weather {
-    display: flex;
-    overflow-x: auto;
-    white-space: nowrap;
-    scrollbar-width: none;
-    gap: 12px;
-}
-
-.right-div {
-    height: 760px;
-    background-color: var(--card-color);
-    padding: 20px;
-    border-radius: 12px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-
-.weekly-weather {
-    display: flex;
-    flex-direction: column;
-    overflow-y: auto;
-    white-space: nowrap;
-    scrollbar-width: none;
-    gap: 12px;
-}
-
-.alert-bg {
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100vh;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    padding-top: 44px;
-}
-
-.alert-modal {
-    width: 400px;
-    padding: 12px 20px;
-    border-radius: 12px;
-    height: fit-content;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    color: black;
-}
-
-.cursor {
-  position: fixed;
-  pointer-events: none;
-  z-index: 9999;
-  transform: translate(15px, 15px);
-}
-
-.icon {
-    width: 18px;
-    height: auto;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 .input-bar {
@@ -138,12 +67,6 @@ p {
     gap: 12px;
     background-color: var(--bg-color);
     padding: 12px 18px;
-    border-radius: 32px;
-}
-
-.theme-toggle {
-    background-color: var(--bg-color);
-    padding: 4px;
     border-radius: 32px;
 }
 
@@ -171,6 +94,12 @@ p {
     opacity: 100%;
 }
 
+.theme-toggle {
+    background-color: var(--bg-color);
+    padding: 4px;
+    border-radius: 32px;
+}
+
 .theme-btn {
     padding: 8px;
     border-radius: 50%;
@@ -183,8 +112,20 @@ p {
     background-color: var(--card-color);
 }
 
-.warning-icon {
-  color: #FFCA28;
+.weather-data {
+    display: grid;
+    grid-template-columns: 1300px 1fr;
+    gap: 30px;
+}
+
+.left-div {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: var(--card-color);
+    padding: 20px;
+    border-radius: 12px;
 }
 
 .location {
@@ -202,6 +143,16 @@ p {
     background-color: var(--secondary-color);
     border-radius: 12px;
     padding: 20px;
+    border: 1px solid var(--secondary-color);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.hourly-weather {
+    display: flex;
+    overflow-x: auto;
+    white-space: nowrap;
+    scrollbar-width: none;
+    gap: 12px;
 }
 
 .hourly-weather-container {
@@ -211,6 +162,26 @@ p {
     min-width: 150px;
     width: 180px;
     cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.right-div {
+    height: 760px;
+    background-color: var(--card-color);
+    padding: 20px;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.weekly-weather {
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    white-space: nowrap;
+    scrollbar-width: none;
+    gap: 12px;
 }
 
 .weekly-weather-container {
@@ -218,6 +189,40 @@ p {
     padding: 12px;
     border-radius: 12px;
     cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.alert-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding-top: 44px;
+}
+
+.alert-modal {
+    width: 400px;
+    padding: 12px 20px;
+    border-radius: 12px;
+    height: fit-content;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: black;
+}
+
+.warning-icon {
+  color: #FFCA28;
+}
+
+.cursor {
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(15px, 15px);
 }
 
 .weather-details {
