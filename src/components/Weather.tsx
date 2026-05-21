@@ -1,8 +1,11 @@
 import { useContext, useState } from "react";
 import { type HourlyWeatherData } from "../context/weather/WeatherDataContext.ts";
 import { WeatherDetailContext } from "../context/weatherdetail/WeatherDetailContext.ts";
+import { useNavigate } from "react-router";
 
 export default function Weather({ hour, type }: {hour: HourlyWeatherData, type: string}) {
+
+  const navigate = useNavigate();
 
   const [ celsius, setCelsius ] = useState<number>(0);
   const [ convertTemp, setConvertTemp ] = useState<boolean>(false);
@@ -59,7 +62,7 @@ export default function Weather({ hour, type }: {hour: HourlyWeatherData, type: 
           </div>
         </div>
       :
-        <div className="weekly-weather-container" key={hour.datetime}  onMouseOver={()=>handleMouseOver(hour.windspeed, hour.visibility, hour.humidity)} onMouseOut={handleMouseOut}>
+        <div className="weekly-weather-container" key={hour.datetime}  onMouseOver={()=>handleMouseOver(hour.windspeed, hour.visibility, hour.humidity)} onMouseOut={handleMouseOut} onClick={()=>navigate("/weeklyweather", {state: {icon: hour.icon, conditions: hour.conditions, temperature: hour.temp, windspeed:hour.windspeed, visibility: hour.visibility, humidity: hour.humidity, precipprob: hour.precipprob, datetime: hour.datetime}})}>
           <div className="flex items-center justify-between">
             <div className="flex flex-col items-center gap-2">
               <img src={`/icons/${hour.icon}.png`} alt={hour.icon} className="w-8 h-8"/>
