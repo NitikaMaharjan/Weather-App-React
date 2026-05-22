@@ -79,24 +79,24 @@ export default function WeatherContent() {
                 <div className="weather-data">
                     <div className="left-div">
                         <div className="flex flex-col md:gap-2 lg:gap-4">
-                            <div className="flex justify-between">
-                                <div className="flex items-center gap-1 py-3 px-5 h-fit w-fit mt-3 location">
+                            <div className="weather-top">
+                                <div className="location-box location">
                                     <img src={`${theme==="light"?"/icons/location.png":"/icons/locationlight.png"}`} alt="location icon" className="w-5 h-5"/>
                                     <p className="left-div-p">{weatherData.timezone}</p>
                                 </div>
-                                <div className="flex flex-col items-center gap-4">
+                                <div className="weather-center">
                                     <p className="greetings"><b>{greetings}</b></p>
-                                    <div className="flex flex-col items-center gap-3">
+                                    <div className="weather-info">
                                         <img src={`/icons/${weatherData.currentConditions.icon}.png`} alt={weatherData.currentConditions.icon} className="w-16 h-16"/>
                                         <p className="left-div-p">{weatherData.currentConditions.conditions}</p>
                                     </div>
                                 </div>
-                                <div className="mt-3 text-right leading-loose">
+                                <div className="time-box">
                                     <p className="left-div-p">{currentTime}</p>
                                     <p className="left-div-p">{currentDay}</p>
                                 </div>
                             </div>
-                            <div className="flex justify-center lg:gap-4 xl:gap-6 weather-cube-div">
+                            <div className="flex justify-center md:gap-2 xl:gap-4 weather-cube-div">
                                 <WeatherCube icon={"temperature.png"} title={"Temperature"} value={weatherData.currentConditions.temp} unit={""}/>
                                 <WeatherCube icon={"wind.png"} title={"Wind Speed"} value={weatherData.currentConditions.windspeed} unit={"km/h"}/>
                                 <WeatherCube icon={"visibility.png"} title={"Visibility"} value={weatherData.currentConditions.visibility} unit={"km"}/>

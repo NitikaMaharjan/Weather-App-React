@@ -16,7 +16,7 @@ export default function WeatherCube({ icon, title, value, unit }: { icon: string
     return (
         <>
             <div className="weather-cube">
-                <div className="flex flex-col items-center md-gap-0 xl:gap-1">
+                <div className="flex flex-col items-center md:gap-1 xl:gap-2">
                     <img src={`/icons/${icon}`} alt={`${title} icon`} className="w-12 h-12 mb-2"/>
                     <p style={{textAlign: "center"}}><b>{title}</b></p>
                 </div>

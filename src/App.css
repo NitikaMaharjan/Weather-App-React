@@ -1,17 +1,15 @@
-@media (max-width: 1536px) {
+@media (max-width: 1500px) {
     #root {
-        gap: 20px;
-        padding: 20px;
+        gap: 18px;
+        padding: 18px;
+    }
+
+    p {
+        font-size: 12px;
     }
 
     .weather-data {
-        display: grid;
-        grid-template-columns: 1000px 1fr;
-        gap: 20px;
-    }
-
-    .right-div {
-        height: 600px;
+        gap: 18px;
     }
 
     .greetings {
@@ -19,11 +17,11 @@
     }
 
     .left-div-p {
-        font-size: 16px;
+        font-size: 14px;
     }
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1350px) {
     #root {
         gap: 12px;
         padding: 12px;
@@ -31,16 +29,6 @@
 
     p {
         font-size: 12px;
-    }
-
-    .search-input {
-        width: 400px;
-    }
-
-    .weather-data {
-        display: grid;
-        grid-template-columns: 580px 1fr;
-        gap: 12px;
     }
 
     .weather-cube {
@@ -54,10 +42,6 @@
         height: 24px;
     }
 
-    .right-div {
-        height: 540px;
-    }
-
     .greetings {
         font-size: 24px;
     }
@@ -65,9 +49,13 @@
     .left-div-p {
         font-size: 12px;
     }
+
+    .weekly-weather-container {
+        flex-direction: column;
+    }
 }
 
-@media (max-width: 640px) {
+@media (max-width: 1000px) {
     p {
         font-size: 12px;
     }
@@ -79,6 +67,10 @@
     .weather-data {
         display: flex;
         flex-direction: column;
+    }
+
+    .left-div {
+        gap:20px;
     }
 
     .weather-cube-div {
@@ -107,5 +99,32 @@
 
     .left-div-p {
         font-size: 12px;
+    }
+}
+
+@media (max-width: 600px) {
+    .navbar {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .weather-top {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .weather-cube-div {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        margin-top: 20px;
+    }
+
+    .weather-cube {
+        width: 100%;
+        height: auto;
+    }
+    
+    .weather-cube p{
+        font-size: 11px;
     }
 }
