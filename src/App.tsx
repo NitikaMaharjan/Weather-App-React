@@ -2,24 +2,20 @@ import './App.css'
 import { ThemeProvider } from './context/theme/ThemeProvider'
 import { AlertProvider } from './context/alert/AlertProvider'
 import { WeatherDataProvider } from './context/weather/WeatherDataProvider'
-import { BrowserRouter, Route, Routes } from 'react-router'
-import Home from './components/Home'
-import WeeklyWeather from './components/WeeklyWeather'
+import { RouterProvider } from 'react-router'
+import router from './routes'
 
 function App() {
   return (
-    <BrowserRouter>
+    <>
       <ThemeProvider>
         <AlertProvider>
           <WeatherDataProvider>
-            <Routes>
-              <Route path="/" element={ <Home />}/>
-              <Route path="/weeklyweather" element={ <WeeklyWeather />}/>
-            </Routes>
+            <RouterProvider router={router} />
           </WeatherDataProvider>
         </AlertProvider>
       </ThemeProvider>
-    </BrowserRouter>
+    </>
   )
 }
 

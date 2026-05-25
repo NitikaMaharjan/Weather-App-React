@@ -71,7 +71,7 @@ export default function WeatherContent() {
     return (
         <>
             {   loading ?
-                <div className="w-full flex-1 flex justify-center items-center">
+                <div className="w-full h-full flex justify-center items-center">
                     <Loading/>
                 </div>
                 :    
